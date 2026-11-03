@@ -35,7 +35,7 @@ function scene(t,S){var f=S.f;
   D.chP(32,232);D.chC(56,232);D.chK(80,232);
   if(f.suit){box(88,214,10,16,"#378ADD","#0C447C");R(92,211,2,3,"#444441");R(88,220,10,1,"#0C447C");}
   D.chT(75,110);}
-D.start({scene:scene,names:Object.assign({},D.toyMeta.names,{O:"▶ 打工人豚骨"}),colors:D.toyMeta.colors,pitch:D.toyMeta.pitch,defaultLang:"zh",
+D.start({scene:scene,names:Object.assign({},D.toyMeta.names,{O:"▶ 打工人豚骨"}),colors:D.toyMeta.colors,pitch:D.toyMeta.pitch,defaultLang:"zh",blip:D.toyBlip,
   cam:{wide:[1,75,120],P:[3,32,196],Px:[4.4,32,188],C:[3.2,56,208],Cx:[5,56,200],K:[3.6,80,212],Kx:[5,80,206],O:[3,134,166],Ox:[4.4,134,158],T:[4,75,106],box:[4,112,166],far:[2.4,75,90],miss:[3,25,62]},
   onLine:function(i,S){var f=S.f;f.shop=i<=7;f.miss=i<=2;f.chicken=i>=3&&i<=4;f.tonk=i>=15;f.opened=i>=19;f.suit=i>=23;f.luck=i>=5;
     if(i===2||i===12||i===21)f.cryP=true;if(i===4||i===7)f.happyP=true;if(i===11)f.errK=true;if(i===23||i===25||i===3)f.happyK=true;},

@@ -2,7 +2,7 @@
 "use strict";
 var $=function(id){return document.getElementById(id);};
 var cv=$("cv"),ctx=cv.getContext("2d");
-var t=0;
+var t=0,WW=150,HH=240;
 var S={cam:[1,75,120],tgt:[1,75,120],talk:"",glitchU:0,flashU:0,popU:0,oShockU:0,shakeU:0,
   rain:0,rainT:0,snow:0,snowT:0,sun:0,sunT:0,f:{}};
 function R(x,y,w,h,c){ctx.fillStyle=c;ctx.fillRect(x,y,w,h);}
@@ -98,7 +98,8 @@ function chS(x,y){var f=S.f;var tk=S.talk==="S"&&blink(150);var b=f.runS&&blink(
 function hearts(x,y){for(var k=0;k<5;k++){var p=((t/30+k*14)%60);A(Math.max(0,1-p/60));var hx=x+Math.round(Math.sin(t/300+k*2)*8)+k*2-4,hy=y-p;
   R(hx,hy,1,1,"#ED93B1");R(hx+2,hy,1,1,"#ED93B1");R(hx,hy+1,3,1,"#ED93B1");R(hx+1,hy+2,1,1,"#ED93B1");}A(1);}
 
-function weather(){
+function weather(){var ws=WW/150;if(ws!==1){ctx.save();ctx.scale(ws,ws);}try{weather0();}finally{if(ws!==1)ctx.restore();}}
+function weather0(){
   if(S.rain>.05){A(.6*S.rain);for(var k=0;k<80;k++){var xx=((k*37+t*.04)%170)-10,yy=((k*53+t*.28)%250)-10;R(Math.round(xx),Math.round(yy),1,4,"#85B7EB");}
     A(.15*S.rain);R(0,0,150,240,"#0C447C");A(1);
     if(S.rain>.5&&(t%2600)<90){A(.45);R(0,0,150,240,"#E6F1FB");A(1);}}
@@ -116,16 +117,16 @@ function draw(){
   for(var k=0;k<3;k++)S.cam[k]+=(S.tgt[k]-S.cam[k])*.07;
   S.rain+=(S.rainT-S.rain)*.04;S.snow+=(S.snowT-S.snow)*.05;S.sun+=(S.sunT-S.sun)*.04;
   var s=S.cam[0],cx=S.cam[1],cy=S.cam[2];
-  cx=Math.min(Math.max(cx,75/s),150-75/s);cy=Math.min(Math.max(cy,120/s),240-120/s);
+  cx=Math.min(Math.max(cx,WW/2/s),WW-WW/2/s);cy=Math.min(Math.max(cy,HH/2/s),HH-HH/2/s);
   var shx=t<S.shakeU?Math.round((Math.random()-.5)*4):0;
-  var Q=cv.width/150;
-  ctx.setTransform(Q,0,0,Q,0,0);ctx.imageSmoothingEnabled=false;A(1);R(0,0,150,240,"#0b0d18");
-  ctx.setTransform(s*Q,0,0,s*Q,(75-s*cx+shx)*Q,(120-s*cy)*Q);
+  var Q=cv.width/WW;
+  ctx.setTransform(Q,0,0,Q,0,0);ctx.imageSmoothingEnabled=false;A(1);R(0,0,WW,HH,"#0b0d18");
+  ctx.setTransform(s*Q,0,0,s*Q,(WW/2-s*cx+shx)*Q,(HH/2-s*cy)*Q);
   EP.scene(t,S);
   weather();
   if(EP.over)EP.over(t,S);
   ctx.setTransform(1,0,0,1,0,0);var W=cv.width,H=cv.height;
-  if(t<S.glitchU){for(var g=0;g<7;g++){var y=(Math.random()*240|0)*Q,h=(2+Math.random()*12|0)*Q;ctx.drawImage(cv,0,y,W,h,((Math.random()-.5)*16|0)*Q,y,W,h);}A(.18);R(0,0,W,H,"#E24B4A");A(1);}
+  if(t<S.glitchU){for(var g=0;g<7;g++){var y=(Math.random()*HH|0)*Q,h=(2+Math.random()*12|0)*Q;ctx.drawImage(cv,0,y,W,h,((Math.random()-.5)*16|0)*Q,y,W,h);}A(.18);R(0,0,W,H,"#E24B4A");A(1);}
   if(t<S.flashU){A(Math.min(1,(S.flashU-t)/220));R(0,0,W,H,"#FFFFFF");A(1);}}
 function loop(now){t=now;try{draw();}catch(e){console.error(e);}requestAnimationFrame(loop);}
 
@@ -163,7 +164,7 @@ function speak(e,w,done,lang){lang=lang||"en";var fin=false;var fb;var go=functi
   if(!speechOK)return;
   try{var u=new SpeechSynthesisUtterance(e);u.lang=(lang==="en"&&EP&&EP.gb&&EP.gb.indexOf(w)>=0)?"en-GB":(LCODE[lang]||"en-US");
     var v=lang==="en"?pickVoice(w):langVoice(lang);if(v)u.voice=v;
-    u.rate=(w==="N"||w==="O"||w==="S"||w==="D")?rate*.85:rate;u.pitch=pitchOf(w);u.onend=go;u.onerror=go;
+    u.rate=(w==="N"||w==="O"||w==="S"||w==="D"||w==="H")?rate*.85:rate;u.pitch=pitchOf(w);u.onend=go;u.onerror=go;
     if(speechSynthesis.speaking)speechSynthesis.cancel();speechSynthesis.speak(u);}catch(x){}}
 
 var AC=null;function ac(){try{if(!AC){var C=window.AudioContext||window.webkitAudioContext;if(C)AC=new C();}if(AC&&AC.state==="suspended")AC.resume();}catch(x){}return AC;}
@@ -238,7 +239,7 @@ function stop(){playing=false;clearTimeout(tm);setBtn();}
 
 window.Drama={R:R,A:A,txt:txt,blink:blink,chA:chA,chB:chB,chT:chT,chO:chO,chS:chS,hearts:hearts,S:S,
   time:function(){return t;},
-  start:function(ep){EP=ep;L=ep.lines;if(!LANG_SET&&ep.defaultLang)LANG=ep.defaultLang;$("prog").textContent="0/"+L.length;
+  start:function(ep){EP=ep;WW=ep.W||150;HH=ep.H||240;S.cam=ep.cam.wide.slice();S.tgt=ep.cam.wide.slice();L=ep.lines;if(!LANG_SET&&ep.defaultLang)LANG=ep.defaultLang;$("prog").textContent="0/"+L.length;
     $("play").onclick=function(){ac();if(playing){stop();try{speechSynthesis.cancel();}catch(x){}return;}
       if(speechOK){try{speechSynthesis.getVoices();}catch(x){}}
       playing=true;setBtn();show(i>=L.length-1||i<0?0:i+1,true);};

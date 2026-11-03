@@ -118,14 +118,15 @@ function draw(){
   var s=S.cam[0],cx=S.cam[1],cy=S.cam[2];
   cx=Math.min(Math.max(cx,75/s),150-75/s);cy=Math.min(Math.max(cy,120/s),240-120/s);
   var shx=t<S.shakeU?Math.round((Math.random()-.5)*4):0;
-  ctx.setTransform(1,0,0,1,0,0);ctx.imageSmoothingEnabled=false;A(1);R(0,0,150,240,"#0b0d18");
-  ctx.setTransform(s,0,0,s,75-s*cx+shx,120-s*cy);
+  var Q=cv.width/150;
+  ctx.setTransform(Q,0,0,Q,0,0);ctx.imageSmoothingEnabled=false;A(1);R(0,0,150,240,"#0b0d18");
+  ctx.setTransform(s*Q,0,0,s*Q,(75-s*cx+shx)*Q,(120-s*cy)*Q);
   EP.scene(t,S);
   weather();
   if(EP.over)EP.over(t,S);
-  ctx.setTransform(1,0,0,1,0,0);
-  if(t<S.glitchU){for(var g=0;g<7;g++){var y=Math.random()*240|0,h=2+Math.random()*12|0;ctx.drawImage(cv,0,y,150,h,(Math.random()-.5)*16|0,y,150,h);}A(.18);R(0,0,150,240,"#E24B4A");A(1);}
-  if(t<S.flashU){A(Math.min(1,(S.flashU-t)/220));R(0,0,150,240,"#FFFFFF");A(1);}}
+  ctx.setTransform(1,0,0,1,0,0);var W=cv.width,H=cv.height;
+  if(t<S.glitchU){for(var g=0;g<7;g++){var y=(Math.random()*240|0)*Q,h=(2+Math.random()*12|0)*Q;ctx.drawImage(cv,0,y,W,h,((Math.random()-.5)*16|0)*Q,y,W,h);}A(.18);R(0,0,W,H,"#E24B4A");A(1);}
+  if(t<S.flashU){A(Math.min(1,(S.flashU-t)/220));R(0,0,W,H,"#FFFFFF");A(1);}}
 function loop(now){t=now;try{draw();}catch(e){console.error(e);}requestAnimationFrame(loop);}
 
 var PREF={

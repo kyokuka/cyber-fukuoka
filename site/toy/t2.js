@@ -1,34 +1,36 @@
 (function(){
 var D=Drama,R=D.R,A=D.A,blink=D.blink;
 function l(w,zh,ja,en,cam,fx,sv){return [w,{zh:zh,ja:ja,en:en},cam,fx||"",sv];}
+function towels(x,n){for(var k=0;k<n;k++){R(x,212-k*3,18,3,k%2?"#B5D4F4":"#F1EFE8");R(x,212-k*3,18,.5,"#D3D1C7");}}
 function scene(t,S){var f=S.f;
   D.toyShop(t,{kuji:true});
-  if(f.towels>0){for(var k=0;k<f.towels;k++){R(18,212-k*3,20,3,k%2?"#B5D4F4":"#F1EFE8");}}
-  if(f.prizeA){R(108,194,12,10,"#FAC775");R(108,194,12,2,"#FFFFFF");D.sparkle(114,194,6);}
-  if(f.last){R(84,190,16,14,"#D4537E");R(84,190,16,2,"#F4C0D1");R(91,188,2,16,"#FAC775");D.sparkle(92,190,12);}
-  D.chP(40,232);D.chC(96,232);D.chK(124,232);D.chT(75,120);}
+  R(58,170,36,4,"#BA7517");box(64,154,24,16,"#E24B4A","#791F1F");R(70,158,12,3,"#501313");R(64,154,24,2,"#F09595");
+  if(f.oTowel)towels(98,3);if(f.pTowel)towels(6,f.pTowel);
+  if(f.prizeA){R(108,190,14,12,"#FAC775");R(108,190,14,2,"#FFFFFF");R(114,190,2,12,"#E24B4A");D.sparkle(115,190,8);}
+  D.miss(f.miss);
+  D.chP(30,232);D.scalper(70,false);D.chC(108,232);D.chK(132,232);D.chT(75,118);}
+function box(x,y,w,h,c,o){R(x-.5,y-.5,w+1,h+1,o);R(x,y,w,h,c);}
 D.start({scene:scene,names:D.toyMeta.names,colors:D.toyMeta.colors,pitch:D.toyMeta.pitch,
-  cam:{wide:[1,75,120],P:[3,40,200],Px:[4.4,40,192],C:[3.2,96,208],Cx:[5,96,200],K:[3.6,124,212],Kx:[5,124,208],T:[4,75,118],board:[2.2,79,66],two:[2.4,68,205]},
-  onLine:function(i,S){var f=S.f;f.luck=true;f.prizeA=i>=4;f.towels=i>=8?10:0;f.last=i>=15;
-    if(i===4||i===15)f.cap=true;if(i===9||i===16)f.cryP=true;if(i===7||i===11)f.happyP=true;if(i===15)f.happyK=true;},
-  onEnd:function(S){var f=S.f;f.luck=true;f.prizeA=true;f.towels=10;f.last=true;f.cryP=true;},
-  endText:"下集：盲盒十二连，隐藏款到底在哪？",
+  cam:{wide:[1,75,120],P:[3,30,196],Px:[4.4,30,188],O:[3,70,196],Ox:[4.4,70,190],C:[3.2,108,208],Cx:[5,108,200],K:[3.6,132,212],Kx:[5,132,206],T:[4,75,114],board:[2.2,76,72],miss:[3,25,62]},
+  onLine:function(i,S){var f=S.f;f.miss=i<10?46:49;f.oTowel=i>=8;f.pTowel=i>=10?6:0;f.prizeA=i>=12;f.luck=true;
+    if(i===8)f.sad=true;if(i===9)f.happyP=true;if(i===10)f.cryP=true;if(i>=13&&i<=14)f.shakeO=true;if(i===12)f.cap=true;},
+  onEnd:function(S){var f=S.f;f.miss=49;f.oTowel=true;f.pTowel=6;f.prizeA=true;f.luck=true;f.cryP=true;f.sad=true;},
+  endText:"下集：盲盒一整盒，黄牛的隐藏款？",
   lines:[
-l("N","胖虎潮玩，一番赏日。","パンフーのおもちゃ屋。一番くじの日。","Panghu Toys. Ichiban Kuji day.","board"),
-l("T","一番赏 ＝ 一番くじ（いちばんくじ）＝ Ichiban Kuji","一番くじ（いちばんくじ）＝一番赏","Ichiban Kuji = 一番赏 = 一番くじ","T","pop",{zh:"一番赏。日语叫一番くじ。",ja:"一番くじ、いちばんくじ。",en:"Ichiban Kuji."}),
-l("C","我抽一张。","一回お願いします。","One ticket, please.","C"),
-l("K","嘀。请抽。","ピッ。どうぞ。","Beep. Go ahead.","K"),
-l("C","……A 赏。","……A賞です。","...A Prize.","Cx","flash"),
-l("P","第一抽就 A 赏？！","一回目でA賞！？","A Prize on the first try?!","Px","shock"),
-l("T","A 赏 ＝ A賞（エーしょう）＝ A Prize","A賞（エーしょう）＝A赏＝A Prize","A Prize = A赏 = A賞","T","pop",{zh:"A赏。第一抽就中的人，中文叫欧皇。",ja:"A賞、エーしょう。",en:"A Prize."}),
-l("P","我也抽！十连！","俺も！十回！","My turn! Ten tickets!","P","boom"),
-l("K","结果：E 赏，E 赏……十张全是 E 赏。","結果：E賞、E賞……全部E賞です。","Result: E, E... all ten are E Prize.","K",""),
-l("P","十条毛巾……","タオル十枚……","Ten towels...","Px",""),
-l("T","再来一次 ＝ もう一回 ＝ One more time!","もう一回（もういっかい）＝再来一次","One more time! = 再来一次 = もう一回","T","pop",{zh:"再来一次。说这句的人，通常已经输了。",ja:"もう一回！",en:"One more time!"}),
-l("P","再来一次！","もう一回！","One more time!","Px","shake"),
-l("K","只剩最后一张了。","残り一枚です。","Only one ticket left.","Kx",""),
-l("T","最后赏 ＝ ラストワン賞 ＝ Last One Prize","ラストワン賞＝最后赏＝Last One Prize","Last One Prize = 最后赏 = ラストワン賞","T","pop",{zh:"最后赏。抽到最后一张的人，额外送大奖。",ja:"ラストワン賞。",en:"Last One Prize."}),
-l("C","那我抽最后一张。","じゃあ、最後の一枚を。","Then I'll take the last one.","C",""),
-l("K","最后赏，归抽抽。","ラストワン賞、チョウチョウさんです。","The Last One Prize goes to Chouchou.","Cx","boom"),
-l("P","…………","…………","......","Px","",{zh:"呜。",ja:"うう。",en:"Ugh."})]});
+l("N","一番赏日。胖虎今天的目标：A 赏。","一番くじの日。パンフーの目標：A賞。","Ichiban Kuji day. Panghu's goal: the A Prize.","board"),
+l("N","胖虎，连续未中：第 46 抽。","パンフー、連続ハズレ：46回。","Panghu's losing streak: 46 draws.","miss",""),
+l("O","我要包场。全部八十张。","全部買い占める。八十枚。","I'll buy them all. All eighty tickets.","Ox","flash"),
+l("T","买光 ＝ 買い占め（かいしめ）＝ buy them all","買い占め（かいしめ）＝买光＝buy them all","Buy them all = 买光 = 買い占め","T","pop",{zh:"买光，日语叫買い占め。黄牛的必杀技。",ja:"買い占め、かいしめ。",en:"Buy them all."}),
+l("P","不行！一人限三张！","ダメ！お一人様三枚まで！","No! Three tickets per person!","Px","shake"),
+l("T","限购 ＝ お一人様〇点まで ＝ limit per person","お一人様三枚まで＝每人限三张","Limit three per person = 每人限三张","T","pop",{zh:"日本店里常见：お一人様三点まで，每人限购三个。",ja:"お一人様、三枚まで。",en:"Limit three per person."}),
+l("O","……那我抽三张。","……じゃあ三枚。","...Fine. Three tickets.","O",""),
+l("K","结果：E 赏，E 赏，E 赏。","結果：E賞、E賞、E賞。","Result: E, E, E.","K",""),
+l("O","……三条毛巾。","……タオル三枚。","...Three towels.","Ox",""),
+l("P","哈哈！我也抽三张！","ハハ！俺も三枚！","Ha! Three for me too!","P",""),
+l("K","毛巾，毛巾，毛巾。连续未中：第 49 抽。","タオル、タオル、タオル。連続ハズレ49回。","Towel, towel, towel. Losing streak: 49.","miss","boom"),
+l("C","我抽一张。","一枚ください。","One ticket, please.","C",""),
+l("K","……A 赏。","……A賞です。","...A Prize.","Cx","boom"),
+l("O","我出一万日元！卖给我！","一万円出す！売ってくれ！","Ten thousand yen! Sell it to me!","Ox","shake"),
+l("C","不卖。我是真粉丝。","売りません。本当のファンなので。","Not for sale. I'm a real fan.","Cx",""),
+l("T","不卖 ＝ 売りません ＝ Not for sale","売りません（うりません）＝不卖","Not for sale = 不卖 = 売りません","T","pop",{zh:"A赏日语读エーしょう。对黄牛就说：売りません，不卖。",ja:"売りません。",en:"Not for sale."})]});
 })();

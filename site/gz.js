@@ -153,5 +153,31 @@ function scene(t,S){
   chA(130,440);chB(178,440);
   chD(S);}
 
-D.gz={scene:scene,dz:dz};
+
+/* ---------- Commercial break: Panghu Online Gacha (胖虎家扭蛋机) ---------- */
+var CAPS=[[118,150,"#ED93B1"],[140,140,"#85B7EB"],[164,148,"#FAC775"],[106,176,"#97C459"],[130,170,"#AFA9EC"],[156,172,"#F0997B"],[180,170,"#5DCAA5"],[116,202,"#FAC775"],[142,198,"#ED93B1"],[168,200,"#85B7EB"],[128,224,"#F0997B"],[156,226,"#AFA9EC"]];
+function capsule(x,y,col){R(x,y,14,7,col);R(x,y+7,14,7,"#FFFFFF");R(x,y+6,14,1,"rgba(0,0,0,.18)");R(x+2,y+2,3,2,"rgba(255,255,255,.7)");}
+function ad(t,S){var f=S.f;
+  R(0,0,300,480,"#F6D55C");for(var y=108;y<452;y+=16)for(var x=((y/16)%2)*8;x<300;x+=16)R(x,y,3,3,"#FAC775");
+  R(0,0,300,100,"#C0302E");R(0,100,300,4,"#A32D2D");txt("PANGHU",90,38,"#FFE14D",5);txt("GACHA",110,70,"#FFFFFF",4);
+  R(236,112,46,26,K);txt("18",242,119,"#FFFFFF",2);R(266,123,10,2,"#FFFFFF");R(270,119,2,10,"#FFFFFF");
+  var cx=150,cy=190,r=66;
+  for(var dy=-r;dy<r;dy+=2){var w=Math.round(Math.sqrt(r*r-dy*dy));A(.55);R(cx-w,cy+dy,w*2,2,"#E6F1FB");A(1);R(cx-w,cy+dy,2,2,"#FFFFFF");R(cx+w-2,cy+dy,2,2,"#B5D4F4");}
+  var shake=f.spin?Math.round(Math.sin(t/40)*2):0;
+  CAPS.forEach(function(c,i){capsule(c[0]+(f.spin?Math.round(Math.sin(t/70+i)*2):0),c[1]+(f.spin?Math.round(Math.cos(t/60+i*2)*2):0),c[2]);});
+  A(.6);R(cx-40,cy-50,6,22,"#FFFFFF");R(cx-46,cy-30,4,12,"#FFFFFF");A(1);
+  R(84+shake,250,132,8,"#A32D2D");R(88+shake,258,124,124,"#E24B4A");R(190+shake,258,22,124,"#C0302E");R(88+shake,258,124,2,"#F09595");
+  R(136,286,28,28,"#F1EFE8");R(140,290,20,20,"#D3D1C7");
+  var a=f.spin?t/180:.6;for(var k=0;k<15;k++)R(Math.round(150+Math.cos(a)*k)-2,Math.round(300+Math.sin(a)*k)-2,4,4,"#5F5E5A");
+  R(Math.round(150+Math.cos(a)*16)-4,Math.round(300+Math.sin(a)*16)-4,8,8,"#FAC775");
+  R(178,276,6,18,K);R(179,277,4,16,"#444441");
+  R(128,334,44,30,K);R(128,334,44,4,"#5F5E5A");
+  R(76,382,148,14,"#712B13");R(76,382,148,2,"#993C1D");R(84,396,8,40,"#412402");R(208,396,8,40,"#412402");
+  if(f.pop){var bo=Math.abs(Math.round(Math.sin(t/160)*6));var px=136,py=354-bo;
+    R(px,py+6,28,10,"#FFFFFF");R(px,py+15,28,1,"#D3D1C7");R(px-6,py-10,28,10,"#ED93B1");R(px-6,py-1,28,1,"#993556");
+    R(px+6,py-2,16,8,"#EDEBE3");R(px+8,py-4,12,2,"#EDEBE3");for(var q=0;q<3;q++)R(px+9+q*4,py-6,2,2,"#D3D1C7");A(.5);R(px+8,py+1,12,3,"#F0997B");A(1);R(px+10,py+1,2,2,K);R(px+16,py+1,2,2,K);
+    for(var sp=0;sp<6;sp++){var ang=sp/6*Math.PI*2+t/400,d=22+Math.sin(t/120+sp)*4;R(Math.round(px+14+Math.cos(ang)*d),Math.round(py+4+Math.sin(ang)*d),3,3,"#FFFFFF");}}
+  chP(246,452);
+  R(0,452,300,28,K);txt("ONE DRAW A DAY",10,462,"#FAC775",2);}
+D.gz={scene:scene,dz:dz,ad:ad};
 })();

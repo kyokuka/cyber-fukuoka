@@ -153,9 +153,11 @@ function fillVoices(){var sel=$("voice");if(!sel)return;var vs=enVoices();if(!vs
   var cur=userVoice;sel.innerHTML="";var o=document.createElement("option");o.value="";o.textContent="自动（每个角色不同）";sel.appendChild(o);
   vs.forEach(function(v){var op=document.createElement("option");op.value=v.name;op.textContent=v.name+" ("+v.lang+")";sel.appendChild(op);});
   sel.value=cur;if(sel.value!==cur)sel.value="";}
-var LCODE={zh:"zh-CN",ja:"ja-JP",en:"en-US"};
+var LCODE={zh:"zh-CN",ja:"ja-JP",en:"en-US",yue:"zh-HK"};
+var DUB="en";try{DUB=localStorage.getItem("cyberDub")||"en";}catch(x){}
 var LANG="all",LANG_SET=false;try{var _l=localStorage.getItem("toyLang");if(_l){LANG=_l;LANG_SET=true;}}catch(x){}
-function langVoice(l){try{var vs=speechSynthesis.getVoices().filter(function(v){return v.lang&&v.lang.toLowerCase().replace("_","-").indexOf(l)===0;});
+function langVoice(l){if(l==="yue"){try{var all=speechSynthesis.getVoices(),hk=all.filter(function(v){var g=(v.lang||"").toLowerCase().replace("_","-");return g.indexOf("zh-hk")===0||g.indexOf("yue")===0||/cantonese|粤|粵|sin-?ji/i.test(v.name);});return hk[0]||null;}catch(x){return null;}}
+  try{var vs=speechSynthesis.getVoices().filter(function(v){return v.lang&&v.lang.toLowerCase().replace("_","-").indexOf(l)===0;});
   if(l==="zh"){var cn=vs.filter(function(v){return /zh[-_]CN/i.test(v.lang);});if(cn.length)return cn[0];}
   return vs[0]||null;}catch(x){return null;}}
 function pitchOf(w){return (EP.pitch&&EP.pitch[w]!==undefined)?EP.pitch[w]:(PITCH[w]||1);}
@@ -207,7 +209,9 @@ function show(n,auto){i=n;$("card").style.opacity="0";$("card").style.pointerEve
   if(typeof ln[1]==="object"){var tx=ln[1],sv=ln[4]||tx;k=ln[2];fx=(ln[3]||"").split(" ");
     if(LANG==="all"){e=tx.ja;c=tx.zh+"\n"+tx.en;slang="ja";say=sv.ja||tx.ja;}
     else{e=tx[LANG];c="";slang=LANG;say=sv[LANG]||tx[LANG];}}
-  else{e=ln[1];c=ln[2];k=ln[3];fx=(ln[4]||"").split(" ");say=ln[5];}
+  else{e=ln[1];c=ln[2];k=ln[3];fx=(ln[4]||"").split(" ");say=ln[5];
+    if(DUB!=="en"&&ln[6]){var tail=String(ln[2]).split("\n")[1]||"";tail=tail?"\n"+tail:"";
+      if(DUB==="yue"){e=ln[6];c=ln[1]+tail;say=ln[6];slang="yue";}else{e=ln[7]||ln[6];c=ln[6]+tail;say=e;slang="en";}}}
   S.tgt=EP.cam[k].slice();
   S.f={};
   if(EP.onLine)EP.onLine(i,S);
@@ -252,6 +256,7 @@ window.Drama={R:R,A:A,txt:txt,blink:blink,chA:chA,chB:chB,chT:chT,chO:chO,chS:ch
         Array.prototype.forEach.call(lb,function(o){o.classList.toggle("on",o===b);});if(i>=0){stop();try{speechSynthesis.cancel();}catch(x){}show(i,false);}};});
     var vm=document.querySelectorAll("[data-vmode]");if(vm.length&&EP.blip){Array.prototype.forEach.call(vm,function(b){b.classList.toggle("on",b.getAttribute("data-vmode")===VMODE);
       b.onclick=function(){ac();VMODE=b.getAttribute("data-vmode");try{localStorage.setItem("toyVoiceMode",VMODE);}catch(x){}Array.prototype.forEach.call(vm,function(o){o.classList.toggle("on",o===b);});if(i>=0){stop();try{speechSynthesis.cancel();}catch(x){}show(i,false);}};});}
+    var ds=$("dub");if(ds){ds.value=DUB;if(ds.value!==DUB){DUB="en";ds.value="en";}ds.onchange=function(){ac();DUB=ds.value;try{localStorage.setItem("cyberDub",DUB);}catch(x){}if(i>=0){stop();try{speechSynthesis.cancel();}catch(x){}show(i,false);}};}
     if(!speechOK){var n=$("mute");if(n)n.style.display="block";}
     else{fillVoices();try{speechSynthesis.onvoiceschanged=fillVoices;}catch(x){}
       var sel=$("voice");if(sel)sel.onchange=function(){userVoice=sel.value;try{localStorage.setItem(VKEY,userVoice);}catch(x){}

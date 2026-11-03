@@ -7,11 +7,15 @@ DIR=/var/www/cyber-fukuoka
 HERE="$(cd "$(dirname "$0")" && pwd)"
 
 mkdir -p "$DIR"
-cp -r "$HERE"/site/* "$DIR"/
+if command -v rsync >/dev/null; then rsync -a --delete "$HERE"/site/ "$DIR"/; else cp -r "$HERE"/site/* "$DIR"/; fi
 chmod -R a+rX "$DIR"
 
 if ! command -v nginx >/dev/null; then
   apt-get update && apt-get install -y nginx
+fi
+
+if [ -f /etc/nginx/conf.d/cyber-fukuoka.conf ]; then
+  echo "nginx 配置已存在，只更新网站文件"; systemctl reload nginx; echo "已更新：https://$DOMAIN/"; exit 0
 fi
 
 cat > /etc/nginx/conf.d/cyber-fukuoka.conf <<EOF

@@ -256,7 +256,9 @@ window.Drama={R:R,A:A,txt:txt,blink:blink,chA:chA,chB:chB,chT:chT,chO:chO,chS:ch
         Array.prototype.forEach.call(lb,function(o){o.classList.toggle("on",o===b);});if(i>=0){stop();try{speechSynthesis.cancel();}catch(x){}show(i,false);}};});
     var vm=document.querySelectorAll("[data-vmode]");if(vm.length&&EP.blip){Array.prototype.forEach.call(vm,function(b){b.classList.toggle("on",b.getAttribute("data-vmode")===VMODE);
       b.onclick=function(){ac();VMODE=b.getAttribute("data-vmode");try{localStorage.setItem("toyVoiceMode",VMODE);}catch(x){}Array.prototype.forEach.call(vm,function(o){o.classList.toggle("on",o===b);});if(i>=0){stop();try{speechSynthesis.cancel();}catch(x){}show(i,false);}};});}
-    var ds=$("dub");if(ds){ds.value=DUB;if(ds.value!==DUB){DUB="en";ds.value="en";}ds.onchange=function(){ac();DUB=ds.value;try{localStorage.setItem("cyberDub",DUB);}catch(x){}if(i>=0){stop();try{speechSynthesis.cancel();}catch(x){}show(i,false);}};}
+    var db=document.querySelectorAll("[data-dub]");if(db.length){var ok=false;Array.prototype.forEach.call(db,function(b){if(b.getAttribute("data-dub")===DUB)ok=true;});if(!ok)DUB="en";
+      Array.prototype.forEach.call(db,function(b){b.classList.toggle("on",b.getAttribute("data-dub")===DUB);
+        b.onclick=function(){ac();DUB=b.getAttribute("data-dub");try{localStorage.setItem("cyberDub",DUB);}catch(x){}Array.prototype.forEach.call(db,function(o){o.classList.toggle("on",o===b);});if(i>=0){stop();try{speechSynthesis.cancel();}catch(x){}show(i,false);}};});}
     if(!speechOK){var n=$("mute");if(n)n.style.display="block";}
     else{fillVoices();try{speechSynthesis.onvoiceschanged=fillVoices;}catch(x){}
       var sel=$("voice");if(sel)sel.onchange=function(){userVoice=sel.value;try{localStorage.setItem(VKEY,userVoice);}catch(x){}

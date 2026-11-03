@@ -56,3 +56,5 @@ h2{font-family:"DotGothic16",monospace;font-weight:400;font-size:18px;color:var(
 #intro i{display:block;font-style:normal;font-size:11px;color:#AFA9EC;font-family:"DotGothic16",monospace}
 #intro b{display:block;font-weight:500;font-size:18px;color:#FAC775;margin:2px 0}
 #intro span{display:block;font-size:13px;line-height:1.5;color:#EEEDFE}
+
+.langs.dub{align-items:center;flex-wrap:wrap}.langs .dl{font-size:13px;color:var(--amber);margin-right:2px}

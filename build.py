@@ -170,7 +170,7 @@ def V(path):
     try: return hashlib.md5(open(path,"rb").read()).hexdigest()[:8]
     except Exception: return "0"
 HEAD = '<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#07090f"><title>{title}</title><link rel="stylesheet" href="font.css"><link rel="stylesheet" href="style.css?v={vcss}"></head><body>'
-DUBSEL='<div class="voice"><label for="dub">配音</label><select id="dub"><option value="en">英文（英式口音）</option><option value="yue">广东话</option><option value="gw">鬼佬广东话（外国人讲粤语）</option></select></div><div class="tip">广东话配音需要设备里有粤语语音：iPhone 在「设置 → 辅助功能 → 朗读内容 → 声音 → 中文（香港）」下载；电脑用 Chrome 打开通常自带。「鬼佬广东话」是用英国口音去念粤语拼音，听起来就像外国朋友在讲广东话。</div>'
+DUBSEL='<div class="langs dub"><span class="dl">配音</span><button data-dub="en">英文</button><button data-dub="yue">广东话</button><button data-dub="gw">鬼佬广东话</button></div><div class="tip">广东话配音需要设备里有粤语语音：iPhone 在「设置 → 辅助功能 → 朗读内容 → 声音 → 中文（香港）」下载；电脑用 Chrome 打开通常自带。「鬼佬广东话」是用英国口音去念粤语拼音，听起来就像外国朋友在讲广东话。</div>'
 for ep in EPS:
     n = ep["n"]
     prev_a = f'<a href="ep{n-1}.html">← 第 {n-1} 集</a>' if n > 1 else '<a class="off">-</a>'
@@ -185,9 +185,9 @@ for ep in EPS:
 <div id="cap" class="cap"><div id="who"></div><div id="en">按 ▶ 播放开演</div><div id="zh"></div></div>
 <div id="card" class="card"><span class="no">[ 第 {n} 集 · {e(ep["place"])} ]</span><span class="ti">{e(ep["title"])}</span><span class="sub">{e(ep["sub"])}</span><span class="cast">{e(ep["cast"])}</span><span class="go">点下方播放 ▶</span></div>
 </div>
-<div class="ctl"><button id="play">▶ 播放</button><button id="prev" aria-label="上一句">◀</button><button id="rep">↻ 再念</button><button id="next" aria-label="下一句">▶▶</button></div>
+<div class="ctl"><button id="play">▶ 播放</button><button id="prev" aria-label="上一句">◀</button><button id="rep">↻ 再念</button><button id="next" aria-label="下一句">▶▶</button></div>{DUBSEL if ep.get("dub") else ""}
 <div class="rate"><label for="rate">语速</label><input type="range" id="rate" min="0.5" max="1.2" step="0.1" value="0.8"><span id="rateOut">0.8x</span><span id="prog"></span></div>
-{DUBSEL if ep.get("dub") else ""}<div class="voice"><label for="voice">声音</label><select id="voice"><option value="">自动（每个角色不同）</option></select></div>
+<div class="voice"><label for="voice">声音</label><select id="voice"><option value="">自动（每个角色不同）</option></select></div>
 <div id="mute">这个浏览器不支持朗读，字幕会自动播放。</div>
 <div class="tip">没声音？iPhone 请拨开侧面静音键，调大媒体音量。不同设备自带的语音不同，所以电脑和手机听起来会不一样，可以在「声音」里手动选一个。</div>
 <h2>本集知识点</h2><ul class="notes">{notes}</ul>

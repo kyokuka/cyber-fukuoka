@@ -149,6 +149,20 @@ S3 = [
 ]
 for x in S3: x["season"]=3
 EPS += S3
+
+S4 = [
+ dict(n=22, place="中洲篇", title="真是好天气", sub="Lovely Weather", cast="第四季开播 · 英伦来客毛毛雨先生", extra=[],
+      syn="伦敦的天气来福冈度假了：一朵戴圆顶礼帽的雨云。他说 lovely 的时候，天就开始下雨。", learn="英式反话 · sorry · I'd rather",
+      notes=[("Terribly sorry.", "非常抱歉。terribly 在这里是「非常」，不是「可怕地」。英国人开口先道歉。"),
+             ("I appear to be raining on you.", "I appear to be... = 我好像……，比 I think 更客气、更英式。"),
+             ("It's been raining for three hundred years.", "It's been + -ing：从过去一直持续到现在，还没停。"),
+             ("Marvellous. / Lovely.", "英式反话：嘴上 marvellous、lovely，脸上没表情，意思往往相反。看脸，别看词。英式拼写 marvellous 两个 l。"),
+             ("It's not bad. / Quite good.", "英国人说 not bad 是很好；quite good 反而是一般。"),
+             ("I'd rather have a cup of tea.", "I'd rather + 动词 = 我更想……，委婉拒绝神器。"),
+             ("I'm fine.", "字面是「我很好」，英式语境里常常是「别问了」。")]),
+]
+for x in S4: x["season"]=4
+EPS += S4
 e = html.escape
 def V(path):
     try: return hashlib.md5(open(path,"rb").read()).hexdigest()[:8]
@@ -182,11 +196,12 @@ def card(p):
 cards1 = "".join(card(p) for p in EPS if p["season"] == 1)
 cards2 = "".join(card(p) for p in EPS if p["season"] == 2)
 cards3 = "".join(card(p) for p in EPS if p["season"] == 3)
+cards4 = "".join(card(p) for p in EPS if p["season"] == 4)
 index = HEAD.format(vcss=V(os.path.join(SITE,'style.css')),title=SERIES) + f'''
-<header class="top"><span class="t">CYBER FUKUOKA</span><span style="color:var(--pink)">SEASON 1-3</span></header>
+<header class="top"><span class="t">CYBER FUKUOKA</span><span style="color:var(--pink)">SEASON 1-4</span></header>
 <main>
-<div class="hero"><div class="k">ENGLISH × SHORT DRAMA</div><h1>阴天之恋</h1><p>{SERIES}<br>一部能学英语的像素短剧。第一季学生活英语，第二季学 AI 编程英语，第三季学做产品的英语。</p></div>
-<h2>第三季 · 福冈创业篇</h2><div class="eps">{cards3}</div><h2>第二季 · 东京 Bug 篇</h2><div class="eps">{cards2}</div><h2>第一季 · 福冈阴天篇</h2><div class="eps">{cards1}</div>
+<div class="hero"><div class="k">ENGLISH × SHORT DRAMA</div><h1>阴天之恋</h1><p>{SERIES}<br>一部能学英语的像素短剧。第一季学生活英语，第二季学 AI 编程英语，第三季学做产品的英语，第四季全英文配音，学英式幽默。</p></div>
+<h2>第四季 · 英式幽默篇（全英文配音）</h2><div class="eps">{cards4}</div><h2>第三季 · 福冈创业篇</h2><div class="eps">{cards3}</div><h2>第二季 · 东京 Bug 篇</h2><div class="eps">{cards2}</div><h2>第一季 · 福冈阴天篇</h2><div class="eps">{cards1}</div>
 <div class="foot">怎么看：点进一集，按「播放」自动演；用 ◀ ▶▶ 一句一句跟读；「再念」重复当前句；语速可以拉慢。<br>没声音：iPhone 拨开静音键；建议用 Safari 或 Chrome 打开。<br>出演：A · B · 豚骨 · 晴天特工 · AI 老师</div>
 </main></body></html>'''
 open(os.path.join(SITE, "index.html"), "w", encoding="utf-8").write(index)

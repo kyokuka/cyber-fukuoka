@@ -141,6 +141,9 @@ try{userVoice=localStorage.getItem(VKEY)||"";}catch(x){}
 function enVoices(){try{return speechSynthesis.getVoices().filter(function(v){return v.lang&&v.lang.toLowerCase().indexOf("en")===0;});}catch(x){return[];}}
 function pickVoice(w){var vs=enVoices();if(!vs.length)return null;
   if(userVoice){for(var a=0;a<vs.length;a++)if(vs[a].name===userVoice)return vs[a];}
+  var gb=EP&&EP.gb&&EP.gb.indexOf(w)>=0;
+  if(EP&&EP.voices&&EP.voices[w]){var ev=EP.voices[w];for(var q=0;q<ev.length;q++){for(var z=0;z<vs.length;z++){if(vs[z].name.indexOf(ev[q])>=0)return vs[z];}}}
+  if(gb){var g=vs.filter(function(v){return /en[-_]GB/i.test(v.lang);});if(g.length)return g[(EP.gb.indexOf(w))%g.length];}
   var pref=PREF[w]||PREF.N;
   for(var k=0;k<pref.length;k++){for(var j=0;j<vs.length;j++){if(vs[j].name.indexOf(pref[k])>=0)return vs[j];}}
   for(var m=0;m<vs.length;m++)if(/en[-_]US/i.test(vs[m].lang))return vs[m];
@@ -158,9 +161,9 @@ function pitchOf(w){return (EP.pitch&&EP.pitch[w]!==undefined)?EP.pitch[w]:(PITC
 function speak(e,w,done,lang){lang=lang||"en";var fin=false;var fb;var go=function(){if(!fin){fin=true;clearTimeout(fb);done();}};
   fb=setTimeout(go,(lang==="en"?(e.split(" ").length*450):(e.length*260))/rate+1200);
   if(!speechOK)return;
-  try{var u=new SpeechSynthesisUtterance(e);u.lang=LCODE[lang]||"en-US";
+  try{var u=new SpeechSynthesisUtterance(e);u.lang=(lang==="en"&&EP&&EP.gb&&EP.gb.indexOf(w)>=0)?"en-GB":(LCODE[lang]||"en-US");
     var v=lang==="en"?pickVoice(w):langVoice(lang);if(v)u.voice=v;
-    u.rate=(w==="N"||w==="O"||w==="S")?rate*.85:rate;u.pitch=pitchOf(w);u.onend=go;u.onerror=go;
+    u.rate=(w==="N"||w==="O"||w==="S"||w==="D")?rate*.85:rate;u.pitch=pitchOf(w);u.onend=go;u.onerror=go;
     if(speechSynthesis.speaking)speechSynthesis.cancel();speechSynthesis.speak(u);}catch(x){}}
 
 var AC=null;function ac(){try{if(!AC){var C=window.AudioContext||window.webkitAudioContext;if(C)AC=new C();}if(AC&&AC.state==="suspended")AC.resume();}catch(x){}return AC;}

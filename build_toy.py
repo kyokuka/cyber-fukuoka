@@ -17,7 +17,7 @@ for ep in EPS:
 <main>
 <div class="stage"><canvas id="cv" width="300" height="480"></canvas>
 <div class="bar"><span>{SERIES}</span><span>EP.{n:02d}</span></div>
-<div id="cap" class="cap"><div id="who"></div><div id="en">按 ▶ 播放开演</div><div id="zh"></div></div>
+<div id="intro"></div><div id="cap" class="cap"><div id="who"></div><div id="en">按 ▶ 播放开演</div><div id="zh"></div></div>
 <div id="card" class="card"><span class="no">[ 第 {n} 集 ]</span><span class="ti">{e(ep["title"])}</span><span class="sub">{e(ep["ja"])} · {e(ep["en"])}</span><span class="cast">胖虎店长 · 小仓 · 抽抽 · 打工人豚骨</span><span class="go">点下方播放 ▶</span></div>
 </div>
 <div class="langs"><button data-lang="zh">中文</button><button data-lang="ja">日本語</button><button data-lang="en">EN</button><button data-lang="all">中日英</button></div>

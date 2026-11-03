@@ -14,6 +14,8 @@ function wall(t,side){for(var c=0;c<55;c++){var x=side?150-1-c:c,top=60*c/55,bot
   R(x,top+h*.66,1,h*.34,edge?"#2C2C2A":(c%2?"#5F5E5A":"#6b6a65"));
   if(!edge&&c%2===0)R(x,top+h*.7,1,.5,"#444441");}}
 function scene(t,S){var f=S.f;
+  if(f.shop){D.toyShop(t,{});if(f.miss)D.miss(99);if(f.chicken){box(86,204,12,9,"#F1EFE8","#B4B2A9");for(var ck=0;ck<4;ck++)R(87+ck*2.5,201+(ck%2),3,3,"#BA7517");}
+    D.chP(32,232);D.chC(56,232);D.chK(80,232);D.chT(75,110);return;}
   R(0,0,150,240,"#1a1a24");
   for(var y=0;y<60;y++){var hw=75-y*20/60*1;R(75-hw,y,hw*2,1,y%6<3?"#2a2a33":"#262630");}
   for(var k=0;k<5;k++){var yy=4+k*12,hw2=40-k*6;R(75-hw2,yy,hw2*2,1.5,"#F1EFE8");A(.15);R(75-hw2-4,yy+1.5,hw2*2+8,4,"#FFFFFF");A(1);}
@@ -35,13 +37,23 @@ function scene(t,S){var f=S.f;
   D.chT(75,110);}
 D.start({scene:scene,names:Object.assign({},D.toyMeta.names,{O:"▶ 打工人豚骨"}),colors:D.toyMeta.colors,pitch:D.toyMeta.pitch,defaultLang:"zh",
   cam:{wide:[1,75,120],P:[3,32,196],Px:[4.4,32,188],C:[3.2,56,208],Cx:[5,56,200],K:[3.6,80,212],Kx:[5,80,206],O:[3,134,166],Ox:[4.4,134,158],T:[4,75,106],box:[4,112,166],far:[2.4,75,90],miss:[3,25,62]},
-  onLine:function(i,S){var f=S.f;f.miss=i<=1;f.tonk=i>=12;f.opened=i>=16;f.suit=i>=20;f.luck=i>=2;
-    if(i===1||i===9||i===18)f.cryP=true;if(i===4)f.happyP=true;if(i===8)f.errK=true;if(i===20||i===22)f.happyK=true;},
+  onLine:function(i,S){var f=S.f;f.shop=i<=7;f.miss=i<=2;f.chicken=i>=3&&i<=4;f.tonk=i>=15;f.opened=i>=19;f.suit=i>=23;f.luck=i>=5;
+    if(i===2||i===12||i===21)f.cryP=true;if(i===4||i===7)f.happyP=true;if(i===11)f.errK=true;if(i===23||i===25||i===3)f.happyK=true;},
   onEnd:function(S){var f=S.f;f.tonk=true;f.opened=true;f.suit=true;f.luck=true;f.happyK=true;f.cryP=true;},
+  intro:{0:{t:"地点",n:"广州 · 胖虎潮玩",d:"一家卖日本潮玩的小店。店里的吉祥物，就是店长本人。"},
+    2:{t:"人物",n:"胖虎",d:"胖虎潮玩店长。最爱潮玩，抽赏连续 99 抽未中，人称「非酋之王」。"},
+    3:{t:"人物",n:"小仓",d:"仓库机器人，名字来自日语「倉（くら）」。打包速度第一，找东西倒数第一。"},
+    5:{t:"人物",n:"抽抽",d:"店里的常客。第一抽必中，人称「欧皇」，胖虎的天敌。"},
+    6:{t:"人物",n:"AI 老师",d:"飘在空中的语言老师，专门插播日语。"},
+    8:{t:"地点",n:"东京 · 中野百老汇",d:"1966 年开业的老商场，几百家小店卖手办、漫画和古董玩具，日本收藏圈的圣地。"},
+    15:{t:"人物",n:"豚骨",d:"神秘打工人，一共有十二份工。开价永远是一万日元。"}},
   endText:"下集：池袋扭蛋百货，小仓恋爱了？",
   lines:[
+l("N","广州，胖虎潮玩。一家卖日本潮玩的小店。","広州。日本のおもちゃを売る小さな店、パンフー。","Guangzhou. Panghu Toys, a little shop for Japanese toys.","wide"),
 l("N","胖虎，抽赏连续未中：第 99 抽。","パンフー、連続ハズレ：99回。","Panghu's losing streak: ninety-nine draws.","miss"),
 l("P","家人们谁懂啊，第 99 抽，还是毛巾。我破防了。","みんな聞いて。99回目もタオル。もう無理。","Guys. Draw ninety-nine. Another towel. I'm done.","Px"),
+l("K","嘀。店长，第 100 抽之前，要不要先吃个炸鸡压压惊？","ピッ。店長、100回目の前に唐揚げでも？","Beep. Manager, fried chicken before draw one hundred?","K"),
+l("P","吃！吃饱了才有欧气！","食べる！満腹なら運も来る！","Yes! A full belly brings luck!","Px"),
 l("C","店长，听说东京有个「幻之隐藏款」，全世界只有一个。","店長、東京に「幻のシークレット」があるって。世界に一つだけ。","Manager, Tokyo has a phantom secret. Only one in the world.","C"),
 l("T","幻 ＝ まぼろし ＝ 传说中、几乎见不到的","幻（まぼろし）＝传说中的","Maboroshi = phantom, legendary","T","pop",{zh:"幻，日语读まぼろし。传说中、几乎见不到的东西。",ja:"幻、まぼろし。",en:"Maboroshi. Phantom."}),
 l("P","非酋的命运，今天就要改写！小仓，订机票！","ハズレ人生、今日で終わりだ！クラ、航空券！","My unlucky life ends today! Kura, book the flights!","Px","boom"),

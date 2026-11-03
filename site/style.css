@@ -51,3 +51,8 @@ h2{font-family:"DotGothic16",monospace;font-weight:400;font-size:18px;color:var(
 .langs{display:flex;gap:6px;justify-content:center;margin-top:12px}
 .langs button{padding:8px 12px;font-size:13px;min-width:0}
 .langs button.on{border-color:var(--amber);color:var(--amber)}
+#intro{position:absolute;left:10px;right:10px;top:40px;padding:10px 12px;background:rgba(0,0,0,.78);border-left:3px solid #FAC775;border-radius:0;opacity:0;transform:translateY(-6px);transition:opacity .35s,transform .35s;pointer-events:none}
+#intro.on{opacity:1;transform:none}
+#intro i{display:block;font-style:normal;font-size:11px;color:#AFA9EC;font-family:"DotGothic16",monospace}
+#intro b{display:block;font-weight:500;font-size:18px;color:#FAC775;margin:2px 0}
+#intro span{display:block;font-size:13px;line-height:1.5;color:#EEEDFE}

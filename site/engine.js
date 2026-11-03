@@ -185,6 +185,7 @@ function show(n,auto){i=n;$("card").style.opacity="0";$("card").style.pointerEve
     if(x==="red")S.f.red=true;
   });
   $("en").textContent=e;$("zh").textContent=c;
+  var it=$("intro");if(it){var dd=EP.intro&&EP.intro[i];if(dd){it.innerHTML='<i>'+dd.t+'</i><b>'+dd.n+'</b><span>'+dd.d+'</span>';it.classList.add("on");}else it.classList.remove("on");}
   $("who").textContent=(EP.names&&EP.names[w])||NAMES[w];$("who").style.color=(EP.colors&&EP.colors[w])||COLORS[w];
   $("en").style.color=w==="N"?"#AFA9EC":(w==="T"?"#F5C4B3":"#FFFFFF");
   S.talk=w;$("prog").textContent=(i+1)+"/"+L.length;

@@ -1,4 +1,4 @@
-import html, os
+import html, os, hashlib
 SITE = os.path.join(os.path.dirname(__file__), "site")
 SERIES = "赛博福冈 · 阴天之恋"
 EPS = [
@@ -150,14 +150,17 @@ S3 = [
 for x in S3: x["season"]=3
 EPS += S3
 e = html.escape
-HEAD = '<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#07090f"><title>{title}</title><link rel="stylesheet" href="font.css"><link rel="stylesheet" href="style.css"></head><body>'
+def V(path):
+    try: return hashlib.md5(open(path,"rb").read()).hexdigest()[:8]
+    except Exception: return "0"
+HEAD = '<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#07090f"><title>{title}</title><link rel="stylesheet" href="font.css"><link rel="stylesheet" href="style.css?v={vcss}"></head><body>'
 for ep in EPS:
     n = ep["n"]
     prev_a = f'<a href="ep{n-1}.html">← 第 {n-1} 集</a>' if n > 1 else '<a class="off">-</a>'
     next_a = f'<a id="nextEp" href="ep{n+1}.html">第 {n+1} 集 →</a>' if n < len(EPS) else '<a id="nextEp" href="index.html">回到目录</a>'
     notes = "".join(f"<li><b>{e(a)}</b><span>{e(b)}</span></li>" for a, b in ep["notes"])
-    scripts = "".join(f'<script src="{s}"></script>' for s in ["engine.js"] + ep["extra"] + [f"ep{n}.js"])
-    page = HEAD.format(title=f"EP.{n:02d} {ep['title']} · {SERIES}") + f'''
+    scripts = "".join(f'<script src="{s}?v={V(os.path.join(SITE,s))}"></script>' for s in ["engine.js"] + ep["extra"] + [f"ep{n}.js"])
+    page = HEAD.format(vcss=V(os.path.join(SITE,'style.css')),title=f"EP.{n:02d} {ep['title']} · {SERIES}") + f'''
 <header class="top"><a href="index.html">← 目录</a><span class="t">EP.{n:02d} {e(ep["place"])}</span></header>
 <main>
 <div class="stage"><canvas id="cv" width="150" height="240"></canvas>
@@ -179,7 +182,7 @@ def card(p):
 cards1 = "".join(card(p) for p in EPS if p["season"] == 1)
 cards2 = "".join(card(p) for p in EPS if p["season"] == 2)
 cards3 = "".join(card(p) for p in EPS if p["season"] == 3)
-index = HEAD.format(title=SERIES) + f'''
+index = HEAD.format(vcss=V(os.path.join(SITE,'style.css')),title=SERIES) + f'''
 <header class="top"><span class="t">CYBER FUKUOKA</span><span style="color:var(--pink)">SEASON 1-3</span></header>
 <main>
 <div class="hero"><div class="k">ENGLISH × SHORT DRAMA</div><h1>阴天之恋</h1><p>{SERIES}<br>一部能学英语的像素短剧。第一季学生活英语，第二季学 AI 编程英语，第三季学做产品的英语。</p></div>

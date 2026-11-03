@@ -128,11 +128,11 @@ D.toyShop=function(T,f){
   R(0,198,150,42,"#BA7517");for(var fy=198;fy<240;fy+=7)R(0,fy,150,.5,"#854F0B");for(var fx=0;fx<150;fx+=18)R(fx+((fy/7)%2)*9,198,.5,42,"#A0651A");
   A(.18);[10,42,74,106,138].forEach(function(lx){R(lx-2,200,8,30,"#FAC775");});A(1);
   A(.5);box(20,214,110,18,"#D4537E","#993556");A(1);};
-D.toyBlip={P:{f:150,type:"square",ms:78,v:.25,slide:.985,len:.06,vol:.05},
-  K:{f:880,type:"square",ms:46,v:.1,alt:true,len:.035,vol:.035},
-  C:{f:640,type:"triangle",ms:56,v:.35,slide:1.006,bend:1.08,len:.06,vol:.12},
-  O:{f:98,type:"sawtooth",ms:115,v:.15,len:.09,bend:.92,vol:.05},
-  N:{f:330,type:"sine",ms:60,v:.2,len:.05,vol:.08}};
+D.toyBlip={P:{f:105,fs:.88,ms:105,v:.18,bend:.9,vol:.55},
+  K:{f:190,fs:1.25,ms:72,mono:true,type:"square",beep:1400,vol:.22},
+  C:{f:290,fs:1.28,ms:78,v:.3,bend:1.05,vol:.5},
+  O:{f:82,fs:.82,ms:140,v:.1,bend:.85,vol:.55},
+  N:{f:150,fs:1,ms:90,v:.12,vol:.3}};
 D.toyMeta={names:{N:"// 旁白",P:"▶ 胖虎店长",K:"▶ 小仓",C:"▶ 抽抽",T:"★ AI 老师",O:"▶ 黄牛豚骨"},
   colors:{P:"#FAC775",K:"#97C459",C:"#AFA9EC",T:"#F0997B",N:"#AFA9EC",O:"#F09595"},pitch:{P:.6,K:1.5,C:1.3,T:1.05,N:.8,O:.3}};
 })();

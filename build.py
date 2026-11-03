@@ -57,6 +57,65 @@ EPS = [
              ("I like you. / I like you too.", "我喜欢你 / 我也喜欢你。too 放句尾 = 也。"),
              ("See you next season!", "下一季见！")]),
 ]
+
+S2 = [
+ dict(n=8, place="机舱篇", title="飞机上的 Bug", sub="Error 404", cast="第二季开播 · 晴天特工回归", extra=["s2.js"],
+      syn="飞往东京的航班上，B 突然报错 404。晴天特工：是 bug。", learn="bug · 报错 · 重启",
+      notes=[("Are you following us?", "follow = 跟踪；社交媒体上是「关注」。"),
+             ("What's wrong?", "怎么了？朋友或程序不对劲时第一句。"),
+             ("It's a bug.", "bug = 程序错误。修 bug 叫 debug。"),
+             ("Can you fix it?", "你能修好吗？"),
+             ("Restarting... please wait.", "重启中，请稍候。"),
+             ("Have you tried turning it off and on again?", "你试过关机再开机吗？IT 万能句。")]),
+ dict(n=9, place="涩谷篇", title="大屏幕上的日志", sub="Memory Full", cast="晴天特工 · AI 老师", extra=["s2.js"],
+      syn="涩谷十字路口的大屏幕上跳出 B 的报警：内存 99%。日志里全是 A 的名字。", learn="log · memory · 看不懂报错",
+      notes=[("So many people!", "so many + 复数名词 = 好多……"),
+             ("What does this mean?", "这是什么意思？看不懂报错时直接问。"),
+             ("Her memory is full.", "memory 在人是记忆，在电脑是内存。"),
+             ("Let me check the log.", "让我看看日志。log = 程序运行记录。"),
+             ("It's private!", "这是隐私！")]),
+ dict(n=10, place="秋叶原篇", title="第四份兼职", sub="Let Me Debug Her", cast="修理工豚骨 · 晴天特工", extra=["s2.js"],
+      syn="秋叶原最好的修理店，修理工是……豚骨。B 的版本太旧，需要更新。", learn="debug · version · update",
+      notes=[("Of course.", "当然；无语的语气说就是「果然」。"),
+             ("Can you help me debug this?", "能帮我调试一下吗？AI 编程常用。"),
+             ("Which version is she?", "哪个版本？version = 版本。"),
+             ("You need an update.", "你需要更新。A new version is available = 有新版本。"),
+             ("How long does it take?", "要多久？")]),
+ dict(n=11, place="便利店篇", title="凌晨两点的 Prompt", sub="Prompt Accepted", cast="夜班豚骨 · AI 老师", extra=["s2.js"],
+      syn="等待更新的深夜，A 在便利店教 B 什么是 prompt。B 写下了她的第一条指令。", learn="prompt · step by step · 便利店",
+      notes=[("Are you hungry?", "你饿吗？"),
+             ("Do you want it warmed up?", "要加热吗？便利店买便当必听句。"),
+             ("What is a prompt?", "prompt = 给 AI 的指令 / 提示词。"),
+             ("Can you explain it simply?", "能简单解释一下吗？"),
+             ("Step by step.", "一步一步来。让 AI 讲清楚的咒语。")]),
+ dict(n=12, place="东京塔篇", title="这不是 Bug", sub="It's a Feature", cast="晴天特工 · AI 老师", extra=["s2.js"],
+      syn="B 升级到 2.0，系统在东京塔正式上线。结果十一月的东京下雪了。", learn="deploy · It's live · roll back",
+      notes=[("Hello, world!", "你好，世界！程序员的第一行代码。"),
+             ("Let's deploy!", "部署上线吧！deploy = 把程序放到服务器上。"),
+             ("It's live!", "上线了！"),
+             ("Something went wrong.", "出错了。网页报错高频句。"),
+             ("Don't panic. Let's roll back.", "别慌，回滚到旧版本。"),
+             ("It's not a bug. It's a feature.", "这不是 bug，是功能。程序员名梗。")]),
+ dict(n=13, place="机房篇", title="服务器宕机", sub="Server Down", cast="晴天特工 · 豚骨", extra=["s2.js"],
+      syn="全东京同时晴天下雨下雪，服务器宕机。B 握住 A 的手，重启服务器。", learn="server down · backup · It works",
+      notes=[("The server is down.", "服务器挂了。"),
+             ("Too many requests.", "请求太多了。网站 429 报错。"),
+             ("Do we have a backup?", "我们有备份吗？"),
+             ("It works!", "成功了 / 能用了。"),
+             ("Good job!", "干得好！")]),
+ dict(n=14, place="东京屋顶篇", title="Let's Commit", sub="Commit Message", cast="全员出演 · 第二季最终回", extra=["s2.js"],
+      syn="最终回。黎明的东京屋顶，富士山在远处。B 要做出选择。", learn="decide · commit · merge",
+      notes=[("Let me think about it.", "让我想想。"),
+             ("Whatever you choose, I'm with you.", "不管你选什么，我都陪着你。"),
+             ("Are you sure?", "你确定吗？"),
+             ("Let's commit.", "commit = 提交代码 / 认真承诺。第二季最佳双关。"),
+             ("Commit message", "提交说明：每次 commit 写一句改了什么。"),
+             ("Let's merge.", "merge = 合并。"),
+             ("See you in season three!", "第三季见！")]),
+]
+for x in EPS: x["season"]=1
+for x in S2: x["season"]=2
+EPS += S2
 e = html.escape
 HEAD = '<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#07090f"><title>{title}</title><link rel="stylesheet" href="font.css"><link rel="stylesheet" href="style.css"></head><body>'
 for ep in EPS:
@@ -82,12 +141,15 @@ for ep in EPS:
 <nav class="epnav">{prev_a}{next_a}</nav>
 </main>{scripts}</body></html>'''
     open(os.path.join(SITE, f"ep{n}.html"), "w", encoding="utf-8").write(page)
-cards = "".join(f'<a class="ep" href="ep{p["n"]}.html"><span class="n">{p["n"]:02d}</span><span class="m"><b>{e(p["title"])}</b><small>{e(p["syn"])}</small><i>学：{e(p["learn"])}</i></span></a>' for p in EPS)
+def card(p):
+    return f'<a class="ep" href="ep{p["n"]}.html"><span class="n">{p["n"]:02d}</span><span class="m"><b>{e(p["title"])}</b><small>{e(p["syn"])}</small><i>学：{e(p["learn"])}</i></span></a>'
+cards1 = "".join(card(p) for p in EPS if p["season"] == 1)
+cards2 = "".join(card(p) for p in EPS if p["season"] == 2)
 index = HEAD.format(title=SERIES) + f'''
-<header class="top"><span class="t">CYBER FUKUOKA</span><span style="color:var(--pink)">SEASON 1</span></header>
+<header class="top"><span class="t">CYBER FUKUOKA</span><span style="color:var(--pink)">SEASON 1-2</span></header>
 <main>
-<div class="hero"><div class="k">ENGLISH × SHORT DRAMA</div><h1>阴天之恋</h1><p>{SERIES}<br>一部能学英语的像素短剧。七集，从福冈的阴天开始。</p></div>
-<div class="eps">{cards}</div>
+<div class="hero"><div class="k">ENGLISH × SHORT DRAMA</div><h1>阴天之恋</h1><p>{SERIES}<br>一部能学英语的像素短剧。第一季学生活英语，第二季学 AI 编程英语。</p></div>
+<h2>第二季 · 东京 Bug 篇</h2><div class="eps">{cards2}</div><h2>第一季 · 福冈阴天篇</h2><div class="eps">{cards1}</div>
 <div class="foot">怎么看：点进一集，按「播放」自动演；用 ◀ ▶▶ 一句一句跟读；「再念」重复当前句；语速可以拉慢。<br>没声音：iPhone 拨开静音键；建议用 Safari 或 Chrome 打开。<br>出演：A · B · 豚骨 · 晴天特工 · AI 老师</div>
 </main></body></html>'''
 open(os.path.join(SITE, "index.html"), "w", encoding="utf-8").write(index)

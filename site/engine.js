@@ -150,7 +150,7 @@ function fillVoices(){var sel=$("voice");if(!sel)return;var vs=enVoices();if(!vs
   vs.forEach(function(v){var op=document.createElement("option");op.value=v.name;op.textContent=v.name+" ("+v.lang+")";sel.appendChild(op);});
   sel.value=cur;if(sel.value!==cur)sel.value="";}
 var LCODE={zh:"zh-CN",ja:"ja-JP",en:"en-US"};
-var LANG="all";try{LANG=localStorage.getItem("toyLang")||"all";}catch(x){}
+var LANG="all",LANG_SET=false;try{var _l=localStorage.getItem("toyLang");if(_l){LANG=_l;LANG_SET=true;}}catch(x){}
 function langVoice(l){try{var vs=speechSynthesis.getVoices().filter(function(v){return v.lang&&v.lang.toLowerCase().replace("_","-").indexOf(l)===0;});
   if(l==="zh"){var cn=vs.filter(function(v){return /zh[-_]CN/i.test(v.lang);});if(cn.length)return cn[0];}
   return vs[0]||null;}catch(x){return null;}}
@@ -197,7 +197,7 @@ function stop(){playing=false;clearTimeout(tm);setBtn();}
 
 window.Drama={R:R,A:A,txt:txt,blink:blink,chA:chA,chB:chB,chT:chT,chO:chO,chS:chS,hearts:hearts,S:S,
   time:function(){return t;},
-  start:function(ep){EP=ep;L=ep.lines;$("prog").textContent="0/"+L.length;
+  start:function(ep){EP=ep;L=ep.lines;if(!LANG_SET&&ep.defaultLang)LANG=ep.defaultLang;$("prog").textContent="0/"+L.length;
     $("play").onclick=function(){if(playing){stop();try{speechSynthesis.cancel();}catch(x){}return;}
       if(speechOK){try{speechSynthesis.getVoices();}catch(x){}}
       playing=true;setBtn();show(i>=L.length-1||i<0?0:i+1,true);};

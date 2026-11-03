@@ -128,11 +128,31 @@ function draw(){
   if(t<S.flashU){A(Math.min(1,(S.flashU-t)/220));R(0,0,150,240,"#FFFFFF");A(1);}}
 function loop(now){t=now;try{draw();}catch(e){console.error(e);}requestAnimationFrame(loop);}
 
+var PREF={
+  B:["Samantha","Google US English","Ava","Allison","Susan","Victoria","Microsoft Aria","Microsoft Jenny","Zira","Karen"],
+  T:["Karen","Moira","Tessa","Google UK English Female","Serena","Microsoft Libby","Samantha"],
+  A:["Daniel","Alex","Google UK English Male","Tom","Aaron","Microsoft Guy","Microsoft David","Fred"],
+  O:["Fred","Ralph","Bruce","Microsoft Mark","Daniel","Alex","Google UK English Male"],
+  S:["Rocko","Albert","Microsoft Guy","Alex","Google UK English Male","Daniel"],
+  N:["Alex","Daniel","Google US English","Microsoft David","Samantha"]};
+var VKEY="cyberFukuokaVoice",userVoice="";
+try{userVoice=localStorage.getItem(VKEY)||"";}catch(x){}
+function enVoices(){try{return speechSynthesis.getVoices().filter(function(v){return v.lang&&v.lang.toLowerCase().indexOf("en")===0;});}catch(x){return[];}}
+function pickVoice(w){var vs=enVoices();if(!vs.length)return null;
+  if(userVoice){for(var a=0;a<vs.length;a++)if(vs[a].name===userVoice)return vs[a];}
+  var pref=PREF[w]||PREF.N;
+  for(var k=0;k<pref.length;k++){for(var j=0;j<vs.length;j++){if(vs[j].name.indexOf(pref[k])>=0)return vs[j];}}
+  for(var m=0;m<vs.length;m++)if(/en[-_]US/i.test(vs[m].lang))return vs[m];
+  return vs[0];}
+function fillVoices(){var sel=$("voice");if(!sel)return;var vs=enVoices();if(!vs.length)return;
+  var cur=userVoice;sel.innerHTML="";var o=document.createElement("option");o.value="";o.textContent="自动（每个角色不同）";sel.appendChild(o);
+  vs.forEach(function(v){var op=document.createElement("option");op.value=v.name;op.textContent=v.name+" ("+v.lang+")";sel.appendChild(op);});
+  sel.value=cur;if(sel.value!==cur)sel.value="";}
 function speak(e,w,done){var fin=false;var fb;var go=function(){if(!fin){fin=true;clearTimeout(fb);done();}};
   fb=setTimeout(go,(e.split(" ").length*450)/rate+1200);
   if(!speechOK)return;
   try{var u=new SpeechSynthesisUtterance(e);u.lang="en-US";
-    var vs=speechSynthesis.getVoices().filter(function(v){return v.lang&&v.lang.indexOf("en")===0;});if(vs.length)u.voice=vs[0];
+    var v=pickVoice(w);if(v)u.voice=v;
     u.rate=(w==="N"||w==="O"||w==="S")?rate*.85:rate;u.pitch=PITCH[w]||1;u.onend=go;u.onerror=go;
     if(speechSynthesis.speaking)speechSynthesis.cancel();speechSynthesis.speak(u);}catch(x){}}
 
@@ -175,5 +195,8 @@ window.Drama={R:R,A:A,txt:txt,blink:blink,chA:chA,chB:chB,chT:chT,chO:chO,chS:ch
     $("rep").onclick=function(){stop();show(i<0?0:i,false);};
     $("rate").oninput=function(e){rate=+e.target.value;$("rateOut").textContent=rate.toFixed(1)+"x";};
     if(!speechOK){var n=$("mute");if(n)n.style.display="block";}
+    else{fillVoices();try{speechSynthesis.onvoiceschanged=fillVoices;}catch(x){}
+      var sel=$("voice");if(sel)sel.onchange=function(){userVoice=sel.value;try{localStorage.setItem(VKEY,userVoice);}catch(x){}
+        try{speechSynthesis.cancel();}catch(x){}var u=new SpeechSynthesisUtterance("Hello! This is my voice.");u.lang="en-US";var v=pickVoice("B");if(v)u.voice=v;u.rate=rate;speechSynthesis.speak(u);};}
     requestAnimationFrame(loop);}};
 })();

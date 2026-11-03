@@ -75,8 +75,9 @@ for ep in EPS:
 </div>
 <div class="ctl"><button id="play">▶ 播放</button><button id="prev" aria-label="上一句">◀</button><button id="rep">↻ 再念</button><button id="next" aria-label="下一句">▶▶</button></div>
 <div class="rate"><label for="rate">语速</label><input type="range" id="rate" min="0.5" max="1.2" step="0.1" value="0.8"><span id="rateOut">0.8x</span><span id="prog"></span></div>
+<div class="voice"><label for="voice">声音</label><select id="voice"><option value="">自动（每个角色不同）</option></select></div>
 <div id="mute">这个浏览器不支持朗读，字幕会自动播放。</div>
-<div class="tip">没声音？iPhone 请拨开侧面静音键，调大媒体音量。</div>
+<div class="tip">没声音？iPhone 请拨开侧面静音键，调大媒体音量。不同设备自带的语音不同，所以电脑和手机听起来会不一样，可以在「声音」里手动选一个。</div>
 <h2>本集知识点</h2><ul class="notes">{notes}</ul>
 <nav class="epnav">{prev_a}{next_a}</nav>
 </main>{scripts}</body></html>'''

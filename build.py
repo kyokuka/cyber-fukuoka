@@ -116,6 +116,39 @@ S2 = [
 for x in EPS: x["season"]=1
 for x in S2: x["season"]=2
 EPS += S2
+
+S3 = [
+ dict(n=15, place="天神咖啡店篇", title="我有个想法", sub="Let's Build an App", cast="第三季开播 · 咖啡师豚骨", extra=["s2.js","s3.js"],
+      syn="回到福冈，B 想做一个会告诉你心情的天气 App。两周后上线。", learn="idea · MVP · deadline",
+      notes=[("I have an idea.", "我有个想法。"),("What makes it different?", "你的有什么不一样？"),("Let's build an app!", "开发软件用 build。"),
+             ("Let's start with an MVP.", "MVP = 最小可行产品。"),("What's the deadline?", "截止日期是什么时候？")]),
+ dict(n=16, place="屋台篇", title="API 是服务员", sub="Request and Response", cast="豚骨老板", extra=["stall.js","s2.js","s3.js"],
+      syn="豚骨用一碗拉面解释什么是 API：你点单，我上菜。收费标准：一万日元一次。", learn="API · request · response",
+      notes=[("An API is like a waiter.", "API 就像服务员，替程序之间传话。"),("Request / Response", "请求 / 响应。"),
+             ("Can you give me an example?", "能举个例子吗？"),("How much does it cost?", "要多少钱？per request = 按次。")]),
+ dict(n=17, place="运河城篇", title="前端和后端", sub="Frontend and Backend", cast="晴天特工 · AI 老师", extra=["s2.js","s3.js"],
+      syn="博多运河城的彩色外墙和喷泉，成了最好的前端教材。后端呢？像仓库。", learn="frontend · backend · database",
+      notes=[("The frontend is what users see.", "前端 = 用户看到的部分。"),("The backend is like a warehouse.", "后端 = 看不到的仓库和处理。"),
+             ("Where is the data stored?", "数据存在哪？"),("In a database.", "存在数据库里。"),("I want it to look like this.", "我想要它看起来像这样。")]),
+ dict(n=18, place="大濠公园篇", title="测试日", sub="Edge Case", cast="测试员晴天特工", extra=["s2.js","s3.js"],
+      syn="晴天特工当测试员：阴天通过，下雨通过，雨加雪……测试失败。", learn="test · passed · edge case",
+      notes=[("Let's test it.", "测试一下。"),("Test passed / Test failed", "测试通过 / 失败。"),("What if it rains?", "如果下雨呢？What if 是测试的灵魂。"),
+             ("It's an edge case.", "边界情况：少见但一出就错。")]),
+ dict(n=19, place="办公室篇", title="Looks Good to Me", sub="Code Review", cast="工程师豚骨", extra=["s2.js","s3.js"],
+      syn="深夜办公室，B 帮 A 审查代码，豚骨突然出现：做拉面之前，我是工程师。", learn="review · typo · LGTM",
+      notes=[("Can you review my code?", "能帮我审查代码吗？"),("There's a typo.", "有个拼写错误。"),("Before ramen, I was an engineer.", "做拉面之前我是工程师。"),
+             ("Can you make it shorter?", "能写短一点吗？"),("Looks good to me.", "我看没问题，缩写 LGTM。")]),
+ dict(n=20, place="发布日篇", title="用户来了", sub="Launch Day", cast="晴天特工 · AI 老师", extra=["s2.js","s3.js"],
+      syn="App 正式发布，用户从 10 涨到 1000。还来了第一条 bug 报告。", learn="launch · bug report · hotfix",
+      notes=[("Let's launch!", "发布！launch = 正式推出给用户。"),("We got a bug report.", "收到一个问题反馈。"),("What does it say?", "上面说什么？"),
+             ("We need a hotfix.", "需要紧急修复。"),("Thank you for your feedback.", "谢谢你的反馈。")]),
+ dict(n=21, place="百道海滨篇", title="第一个客户", sub="Keep the Change", cast="全员出演 · 第三季最终回", extra=["s2.js","s3.js"],
+      syn="最终回。一万个用户却没有收入。第一个付钱的人是……豚骨，给了一万日元。", learn="charge · free trial · support",
+      notes=[("How much should we charge?", "我们该收多少钱？"),("A free trial. Then 300 yen a month.", "先免费试用，然后每月 300 日元。"),
+             ("Keep the change.", "不用找了。"),("Thank you for your support.", "谢谢你的支持。"),("See you in season four!", "第四季见！")]),
+]
+for x in S3: x["season"]=3
+EPS += S3
 e = html.escape
 HEAD = '<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#07090f"><title>{title}</title><link rel="stylesheet" href="font.css"><link rel="stylesheet" href="style.css"></head><body>'
 for ep in EPS:
@@ -145,11 +178,12 @@ def card(p):
     return f'<a class="ep" href="ep{p["n"]}.html"><span class="n">{p["n"]:02d}</span><span class="m"><b>{e(p["title"])}</b><small>{e(p["syn"])}</small><i>学：{e(p["learn"])}</i></span></a>'
 cards1 = "".join(card(p) for p in EPS if p["season"] == 1)
 cards2 = "".join(card(p) for p in EPS if p["season"] == 2)
+cards3 = "".join(card(p) for p in EPS if p["season"] == 3)
 index = HEAD.format(title=SERIES) + f'''
-<header class="top"><span class="t">CYBER FUKUOKA</span><span style="color:var(--pink)">SEASON 1-2</span></header>
+<header class="top"><span class="t">CYBER FUKUOKA</span><span style="color:var(--pink)">SEASON 1-3</span></header>
 <main>
-<div class="hero"><div class="k">ENGLISH × SHORT DRAMA</div><h1>阴天之恋</h1><p>{SERIES}<br>一部能学英语的像素短剧。第一季学生活英语，第二季学 AI 编程英语。</p></div>
-<h2>第二季 · 东京 Bug 篇</h2><div class="eps">{cards2}</div><h2>第一季 · 福冈阴天篇</h2><div class="eps">{cards1}</div>
+<div class="hero"><div class="k">ENGLISH × SHORT DRAMA</div><h1>阴天之恋</h1><p>{SERIES}<br>一部能学英语的像素短剧。第一季学生活英语，第二季学 AI 编程英语，第三季学做产品的英语。</p></div>
+<h2>第三季 · 福冈创业篇</h2><div class="eps">{cards3}</div><h2>第二季 · 东京 Bug 篇</h2><div class="eps">{cards2}</div><h2>第一季 · 福冈阴天篇</h2><div class="eps">{cards1}</div>
 <div class="foot">怎么看：点进一集，按「播放」自动演；用 ◀ ▶▶ 一句一句跟读；「再念」重复当前句；语速可以拉慢。<br>没声音：iPhone 拨开静音键；建议用 Safari 或 Chrome 打开。<br>出演：A · B · 豚骨 · 晴天特工 · AI 老师</div>
 </main></body></html>'''
 open(os.path.join(SITE, "index.html"), "w", encoding="utf-8").write(index)
